@@ -31,7 +31,7 @@ var items = <?php echo $result;?>
 function loadItems(){
 	if(items.rows == undefined){
 		document.getElementById("loading").innerHTML = "";
-    console.log("Items is undefined. Please check that your catalog application is running. " + items);
+    //console.log("Items is undefined. Please check that your catalog application is running. " + items);
 		return alert("Items is undefined. Please check that your catalog application is running. " + items);
 	}
 
@@ -67,11 +67,11 @@ function orderItem(itemID){
 		dataType: "json",
 		success: function( result ) {
 			if(result.httpCode != "201" && result.httpCode != "200"){
-        console.log("Failed to submit order "+data );
+        //console.log("Failed to submit order "+data );
 				alert("Failure: check that your JavaOrders API App is running and your user-provided service has the correct URL.");
 			}
 			else{
-        console.log("Order submitted with data : "+data );
+      //  console.log("Order submitted with data : "+data );
 				alert("Order Submitted! Check your Java Orders API to see your orders: \n" + result.ordersURL);
 			}
 		},
