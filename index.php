@@ -16,7 +16,7 @@ if (substr( $applicationURI, 0, 3 ) === "ui-") {
 } else {
     $catalogHost = str_replace("-ui-", "-catalog-api-", $applicationURI);
 }
-//echo "\r\ncatalogHost:" . $catalogHost;    
+//echo "\r\ncatalogHost:" . $catalogHost;
 $catalogRoute = "http://" . $catalogHost;
 
 // Get the products from our Catalog API
@@ -31,6 +31,7 @@ var items = <?php echo $result;?>
 function loadItems(){
 	if(items.rows == undefined){
 		document.getElementById("loading").innerHTML = "";
+    console.log("Items is undefined. Please check that your catalog application is running. " + items);
 		return alert("Items is undefined. Please check that your catalog application is running. " + items);
 	}
 
@@ -54,8 +55,8 @@ function addItem(item){
 
 function orderItem(itemID){
 	// Create a random customer ID and count
-	var custID = Math.floor((Math.random() * 999) + 1); 
-	var count = Math.floor((Math.random() * 9999) + 1); 
+	var custID = Math.floor((Math.random() * 999) + 1);
+	var count = Math.floor((Math.random() * 9999) + 1);
 	var order = {"itemid": itemID, "customerid":custID, "count":count};
 
 	$.ajax ({
@@ -66,16 +67,18 @@ function orderItem(itemID){
 		dataType: "json",
 		success: function( result ) {
 			if(result.httpCode != "201" && result.httpCode != "200"){
+        console.log("Failed to submit order "+data );
 				alert("Failure: check that your JavaOrders API App is running and your user-provided service has the correct URL.");
 			}
 			else{
+        console.log("Order submitted with data : "+data );
 				alert("Order Submitted! Check your Java Orders API to see your orders: \n" + result.ordersURL);
 			}
 		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("Error");
-			console.log("Status: " , textStatus); console.log("Error: " , errorThrown); 
-		}  
+			console.log("Status: " , textStatus); console.log("Error: " , errorThrown);
+		}
 	});
 
 }
@@ -95,7 +98,7 @@ function orderItem(itemID){
 <body onload='loadItems()'>
 	<div id='loading'>Loading...</div>
 	<div class="top-bar">
-		<div class="top-bar-left">	
+		<div class="top-bar-left">
 			<ul class="menu">
 				<li class="menu-text">Microservices Store Demo</li>
 			</ul>
